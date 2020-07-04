@@ -48,6 +48,7 @@ jobs:
     - name: Checking all commits that are part of this PR
       run: git checkout ${{github.head_ref}} &&
            git rebase
+           --preserve-merges
            --fork-point origin/${{github.base_ref}}
            --exec 'cargo quality-control'
 
@@ -82,6 +83,7 @@ jobs:
     - name: Checking all commits that are part of this PR
       run: git checkout ${{github.head_ref}} &&
            git rebase
+           --preserve-merges
            --fork-point origin/${{github.base_ref}}
            --exec 'cargo quality-control'
 
@@ -119,5 +121,6 @@ jobs:
     - name: Checking all commits that are part of this PR
       run: git checkout ${{github.head_ref}} &&
            git rebase
+           --preserve-merges
            --fork-point origin/${{github.base_ref}}
            --exec 'cargo quality-control'

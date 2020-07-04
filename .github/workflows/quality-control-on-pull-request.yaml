@@ -1,0 +1,114 @@
+# Runs the quality control steps defined in quality-control.rs on
+# every single commit in the pull request, each time the pull
+# request receives a new commit or is (re-)opened.
+
+name: QC on PR
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+    branches:
+      - '**'
+
+jobs:
+  check_all_commits_on_linux:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Fetch commits on ${{github.head_ref}} reachable from ${{github.base_ref}}
+      # Note that the command below fetches too much data.
+      # Feel free to adjust the command according to the
+      # requirement above. In May 2020, trying to be precise
+      # seemed to trigger a deadlock in Git or GitHub here.
+      run: git fetch --no-tags --prune --unshallow origin
+
+    - name: Install minimal stable Rust toolchain
+      uses: actions-rs/toolchain@v1
+      with:
+        profile: minimal
+        toolchain: stable
+
+    - name: Install minimal nightly Rust toolchain with required components
+      uses: actions-rs/toolchain@v1
+      with:
+        profile: minimal
+        toolchain: nightly
+        components: rustfmt, clippy, #miri
+
+    - name: Checking all commits that are part of this PR
+      run: git checkout ${{github.head_ref}} &&
+           git rebase
+           --fork-point origin/${{github.base_ref}}
+           --exec 'cargo quality-control'
+
+  check_all_commits_on_mac:
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Fetch commits on ${{github.head_ref}} reachable from ${{github.base_ref}}
+      # Note that the command below fetches too much data.
+      # Feel free to adjust the command according to the
+      # requirement above. In May 2020, trying to be precise
+      # seemed to trigger a deadlock in Git or GitHub here.
+      run: git fetch --no-tags --prune --unshallow origin
+
+    - name: Install minimal stable Rust toolchain
+      uses: actions-rs/toolchain@v1
+      with:
+        profile: minimal
+        toolchain: stable
+
+    - name: Install minimal nightly Rust toolchain with required components
+      uses: actions-rs/toolchain@v1
+      with:
+        profile: minimal
+        toolchain: nightly
+        components: rustfmt, clippy, #miri
+
+    - name: Checking all commits that are part of this PR
+      run: git checkout ${{github.head_ref}} &&
+           git rebase
+           --fork-point origin/${{github.base_ref}}
+           --exec 'cargo quality-control'
+
+  check_all_commits_on_windows:
+    runs-on: windows-latest
+
+    steps:
+    # Avoid linter errors due to changed line endings
+    - run: git config --global core.autocrlf false
+
+    - uses: actions/checkout@v2
+
+    - name: Fetch commits on ${{github.head_ref}} reachable from ${{github.base_ref}}
+      # Note that the command below fetches too much data.
+      # Feel free to adjust the command according to the
+      # requirement above. In May 2020, trying to be precise
+      # seemed to trigger a deadlock in Git or GitHub here.
+      run: git fetch --no-tags --prune --unshallow origin
+
+    - name: Install minimal stable Rust toolchain
+      uses: actions-rs/toolchain@v1
+      with:
+        profile: minimal
+        toolchain: stable
+
+    - name: Install minimal nightly Rust toolchain with required components
+      uses: actions-rs/toolchain@v1
+      with:
+        profile: minimal
+        toolchain: nightly
+        components: rustfmt, clippy, #miri
+
+    - name: Checking all commits that are part of this PR
+      run: git checkout ${{github.head_ref}} &&
+           git rebase
+           --fork-point origin/${{github.base_ref}}
+           --exec 'cargo quality-control'

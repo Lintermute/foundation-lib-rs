@@ -1,0 +1,2 @@
+[alias]
+quality-control = "run --package tools --bin quality-control"

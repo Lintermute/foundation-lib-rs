@@ -1,0 +1,62 @@
+# Rustfmt Configuration
+
+# Created on 2020-05-24.
+# See: https://github.com/rust-lang/rustfmt/blob/a4cd6ae/Configurations.md
+
+# Where to place the `{` for functions, structs, and enums.
+# Default value: "SameLineWhere"
+brace_style = "AlwaysNextLine"
+
+combine_control_expr = false
+
+edition = "2018"
+
+error_on_line_overflow = true
+
+error_on_unformatted = true
+
+fn_args_layout = "Tall"
+
+format_code_in_doc_comments = true
+
+format_macro_matchers = true
+
+format_macro_bodies = true
+
+format_strings = true
+
+imports_layout = "HorizontalVertical"
+
+license_template_path = "LICENSE"
+
+max_width = 80
+
+merge_derives = false
+
+merge_imports = true
+
+newline_style = "Unix"
+
+normalize_comments = true
+
+normalize_doc_attributes = true
+
+reorder_impl_items = true
+
+# Try to align members of structs and enums neatly. Default: 0 (off).
+# Our number is just a guess what might probably work...
+struct_field_align_threshold = 15
+enum_discrim_align_threshold = 15
+
+# Not yet part of rustfmt?
+#single_line_if_else_max_width = 0
+#struct_lit_width = 60
+#struct_variant_width = 0
+
+unstable_features = true
+
+use_field_init_shorthand = true
+
+use_try_shorthand = true
+
+wrap_comments = true

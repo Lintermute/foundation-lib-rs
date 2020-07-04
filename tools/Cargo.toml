@@ -1,0 +1,6 @@
+[package]
+name = "tools"
+version = "1.0.0"
+authors = ["Andreas Waidler <waidler@programmers.at>"]
+edition = "2018"
+publish = false

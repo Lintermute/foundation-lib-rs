@@ -19,8 +19,8 @@ jobs:
         toolchain: nightly
         components: rustfmt, clippy
 
-    - run: cargo +nightly fmt --all -- --check
-    - run: cargo +nightly clippy --workspace --all-targets --all-features -- -Dwarnings
+    - run: cargo +nightly --locked fmt --all -- --check
+    - run: cargo +nightly --locked clippy --workspace --all-targets --all-features -- -Dwarnings
 
   test_on_linux:
     runs-on: ubuntu-latest
@@ -33,10 +33,12 @@ jobs:
         toolchain: stable
 
     # Use individual steps so we get a nice overview in the GitHub UI.
-    - run: cargo build --workspace
-    - run: cargo test --workspace
-    - run: cargo build --workspace --release
-    - run: cargo test --workspace --release
+    - run: cargo --locked build --workspace
+    - run: cargo --locked test  --workspace
+    - run: cargo --locked build --workspace --release
+    - run: cargo --locked test  --workspace --release
+    #- run: cargo +nightly --locked miri test --workspace
+    #- run: cargo +nightly --locked miri test --workspace --release
 
   test_on_mac:
     runs-on: macos-latest
@@ -49,10 +51,12 @@ jobs:
         toolchain: stable
 
     # Use individual steps so we get a nice overview in the GitHub UI.
-    - run: cargo build --workspace
-    - run: cargo test --workspace
-    - run: cargo build --workspace --release
-    - run: cargo test --workspace --release
+    - run: cargo --locked build --workspace
+    - run: cargo --locked test  --workspace
+    - run: cargo --locked build --workspace --release
+    - run: cargo --locked test  --workspace --release
+    #- run: cargo +nightly --locked miri test --workspace
+    #- run: cargo +nightly --locked miri test --workspace --release
 
   test_on_windows:
     runs-on: windows-latest
@@ -65,7 +69,9 @@ jobs:
         toolchain: stable
 
     # Use individual steps so we get a nice overview in the GitHub UI.
-    - run: cargo build --workspace
-    - run: cargo test --workspace
-    - run: cargo build --workspace --release
-    - run: cargo test --workspace --release
+    - run: cargo --locked build --workspace
+    - run: cargo --locked test  --workspace
+    - run: cargo --locked build --workspace --release
+    - run: cargo --locked test  --workspace --release
+    #- run: cargo +nightly --locked miri test --workspace
+    #- run: cargo +nightly --locked miri test --workspace --release

@@ -1,6 +1,9 @@
 # Runs the quality control steps defined in quality-control.rs on
 # every single commit in the pull request, each time the pull
 # request receives a new commit or is (re-)opened.
+#
+# Note that we set git's user-name and user-email because
+# otherwise rebase may fail on some runners.
 
 name: QC on PR
 
@@ -19,6 +22,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - run: git config --global user.name github-actions
+    - run: git config --global user.email github-actions-bot@users.noreply.github.com
 
     - name: Fetch commits on ${{github.head_ref}} reachable from ${{github.base_ref}}
       # Note that the command below fetches too much data.
@@ -51,6 +56,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - run: git config --global user.name github-actions
+    - run: git config --global user.email github-actions-bot@users.noreply.github.com
 
     - name: Fetch commits on ${{github.head_ref}} reachable from ${{github.base_ref}}
       # Note that the command below fetches too much data.
@@ -86,6 +93,8 @@ jobs:
     - run: git config --global core.autocrlf false
 
     - uses: actions/checkout@v2
+    - run: git config --global user.name github-actions
+    - run: git config --global user.email github-actions-bot@users.noreply.github.com
 
     - name: Fetch commits on ${{github.head_ref}} reachable from ${{github.base_ref}}
       # Note that the command below fetches too much data.

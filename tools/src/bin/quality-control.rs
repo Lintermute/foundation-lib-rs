@@ -22,10 +22,11 @@ use std::process::Command;
 
 fn main()
 {
-    cargo(&["+nightly", "fmt", "--all", "--", "--check"]);
+    cargo(&["+nightly", "--locked", "fmt", "--all", "--", "--check"]);
 
     cargo(&[
         "+nightly",
+        "--locked",
         "clippy",
         "--workspace",
         "--all-targets",
@@ -34,14 +35,15 @@ fn main()
         "-Dwarnings",
     ]);
 
-    cargo(&["build", "--workspace"]);
-    cargo(&["build", "--workspace", "--release"]);
+    cargo(&["--locked", "build", "--workspace"]);
+    cargo(&["--locked", "build", "--workspace", "--release"]);
 
-    cargo(&["test", "--workspace"]);
-    cargo(&["test", "--workspace", "--release"]);
+    cargo(&["--locked", "test", "--workspace"]);
+    cargo(&["--locked", "test", "--workspace", "--release"]);
 
-    // cargo(&["+nightly", "--workspace", "miri", "test"]);
-    // cargo(&["+nightly", "--workspace", "miri", "test", "--release"]);
+    // cargo(&["+nightly", "--locked", "miri", "test", "--workspace"]);
+    // cargo(&["+nightly", "--locked", "miri", "test", "--workspace",
+    // "--release"]);
 }
 
 fn cargo<I, S>(args: I)
